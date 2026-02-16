@@ -1,6 +1,6 @@
 # FPS.ps1
-$Affinity = [IntPtr]0xFFF0     # CPU 4 t/m 15 aan (disable 0-3, enable 4-15)
-$TryRealTime = $true           # eerst RealTime proberen (fallback naar High)
+$Affinity = [IntPtr]0xFFF0     # Enable CPU cores 4–15 (disable 0–3)
+$TryRealTime = $true           # Try RealTime first (fallback to High)
 $IntervalSec = 2
 $LogPath = Join-Path $PSScriptRoot "FPS.log"
 
@@ -34,14 +34,14 @@ while ($true) {
     }
 
     if ($p.Id -ne $lastPid) {
-        Log "WoW process changed. New PID: $($p.Id)"
+        Log "Process changed. New PID: $($p.Id)"
         $lastPid = $p.Id
     }
 
     if ($p.ProcessorAffinity -ne $Affinity) {
         try {
             $p.ProcessorAffinity = $Affinity
-            Log "Applied affinity (CPU 4-15)."
+            Log "Applied CPU affinity (cores 4–15)."
         } catch {
             Log "Failed to set affinity: $($_.Exception.Message)"
         }
@@ -61,7 +61,7 @@ while ($true) {
                 } catch {
                     try {
                         $p.PriorityClass = 'High'
-                        Log "RealTime failed -> fallback to High."
+                        Log "RealTime failed. Falling back to High."
                     } catch {
                         Log "Failed to set priority: $($_.Exception.Message)"
                     }
