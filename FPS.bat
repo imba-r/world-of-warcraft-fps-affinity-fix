@@ -6,20 +6,20 @@ set "PS1=%~dp0FPS.ps1"
 set "LOG=%~dp0FPS.log"
 
 if not exist "%PS1%" (
-  echo PS1 bestand niet gevonden:
+  echo PS1 file not found:
   echo "%PS1%"
   pause
   exit /b 1
 )
 
-echo Start monitor. Logbestand:
+echo Starting monitor. Log file:
 echo "%LOG%"
 echo.
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PS1%"
 
 echo.
-echo Monitor is gestopt. Check logbestand:
+echo Monitor stopped. Check log file:
 echo "%LOG%"
 pause
 endlocal
